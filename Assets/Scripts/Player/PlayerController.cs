@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float MouseSens;
     [SerializeField] private float InteractDistance;
+    [SerializeField] private float NormalCameraFOV;
+    [SerializeField] private float ZoomCameraFOV;
 
     [Header("Components")]
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Animator animator;
+    [SerializeField] private Camera camera;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject Head;
@@ -20,6 +24,7 @@ public class PlayerController : MonoBehaviour
     // flags
     private bool bWalking;
     private bool bHasInteract;
+    private bool bZoom;
 
     // physics
     private Vector3 velocity;
@@ -38,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
         bWalking = false;
         bHasInteract = false;
+        bZoom = false;
 
         velocity = Vector3.zero;
     }
@@ -51,6 +57,7 @@ public class PlayerController : MonoBehaviour
         UpdateStates();
         CastForwardRay();
         UpdateAnimations();
+        UpdateZoom();
     }
 
     private void UpdateAnimations()
@@ -69,6 +76,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Interact();
+        }
+
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            bZoom = true;
+        }
+
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            bZoom = false;
         }
     }
 
@@ -89,12 +106,26 @@ public class PlayerController : MonoBehaviour
         characterController.Move(velocity);
     }
 
+    private void UpdateZoom()
+    {
+        float fov = camera.fieldOfView;
+        if (bZoom)
+        {
+            fov = Mathf.Lerp(fov, ZoomCameraFOV, 0.1f);
+        }
+        else
+        {
+            fov = Mathf.Lerp(fov, NormalCameraFOV, 0.1f);
+        }
+        camera.fieldOfView = fov;
+    }
+
     private void Look()
     {
         transform.Rotate(0, mouseInput.x * MouseSens, 0);
         Head.transform.Rotate(-mouseInput.y * MouseSens, 0, 0);
 
-        Head.transform.position = HeadSocket.transform.position;
+        //Head.transform.position = HeadSocket.transform.position;
     }
 
     private void UpdateStates()

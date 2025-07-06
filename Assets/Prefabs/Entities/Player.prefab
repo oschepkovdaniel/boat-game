@@ -939,8 +939,11 @@ MonoBehaviour:
   MovementSpeed: 4.5
   MouseSens: 3.9
   InteractDistance: 2.7
+  NormalCameraFOV: 75
+  ZoomCameraFOV: 40
   characterController: {fileID: 8568129402311343692}
   animator: {fileID: 4819958503863138205}
+  camera: {fileID: 7702456189651057704}
   Head: {fileID: 4736996729976921480}
   HeadSocket: {fileID: 1130295390823678583}
 --- !u!1 &7311732034791952154
