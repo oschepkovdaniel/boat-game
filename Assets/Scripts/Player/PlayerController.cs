@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder;
@@ -14,17 +15,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private Animator animator;
     [SerializeField] private Camera camera;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject Head;
-    [SerializeField] private GameObject HeadSocket;
+    [SerializeField] private GameObject Gun;
 
     // flags
     private bool bWalking;
     private bool bHasInteract;
     private bool bZoom;
+    private bool bHasGun;
 
     // physics
     private Vector3 velocity;
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
         bWalking = false;
         bHasInteract = false;
         bZoom = false;
+        bHasGun = false;
 
         velocity = Vector3.zero;
     }
@@ -56,13 +58,7 @@ public class PlayerController : MonoBehaviour
         Look();
         UpdateStates();
         CastForwardRay();
-        UpdateAnimations();
         UpdateZoom();
-    }
-
-    private void UpdateAnimations()
-    {
-        animator.SetBool("bWalking", bWalking);
     }
 
     private void GetPlayerInput()
@@ -124,8 +120,6 @@ public class PlayerController : MonoBehaviour
     {
         transform.Rotate(0, mouseInput.x * MouseSens, 0);
         Head.transform.Rotate(-mouseInput.y * MouseSens, 0, 0);
-
-        //Head.transform.position = HeadSocket.transform.position;
     }
 
     private void UpdateStates()
@@ -169,6 +163,20 @@ public class PlayerController : MonoBehaviour
         else
         {
             bHasInteract = false;
+        }
+    }
+
+    public void SetHasGun(bool bHasGun)
+    {
+        this.bHasGun = bHasGun;
+
+        if (bHasGun)
+        {
+            Gun.SetActive(true);
+        }
+        else
+        {
+            Gun.SetActive(false);
         }
     }
 }
