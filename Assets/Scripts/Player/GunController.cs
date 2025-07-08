@@ -23,7 +23,10 @@ public class GunController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            GameManagerUtils.SetPlayerHasGun(false);
+            if (GameManagerUtils.GetPlayerHasGun())
+            {
+                GameManagerUtils.SetPlayerHasGun(false);
+            }
         }
     }
 }

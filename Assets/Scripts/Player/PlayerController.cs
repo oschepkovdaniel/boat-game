@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject Head;
     [SerializeField] private GameObject Gun;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource SfxPickupGun;
+    [SerializeField] private AudioSource SfxReturnGun;
+
     // flags
     private bool bWalking;
     private bool bHasInteract;
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     // interaction
     private RaycastHit forwardHit;
+    private string interactionHint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -154,15 +159,18 @@ public class PlayerController : MonoBehaviour
             if (target.TryGetComponent(out IUsableObject usableObject))
             {
                 bHasInteract = true;
+                interactionHint = usableObject.GetInteractionHint();
             }
             else
             {
                 bHasInteract = false;
+                interactionHint = "";
             }
         }
         else
         {
             bHasInteract = false;
+            interactionHint = "";
         }
     }
 
@@ -173,10 +181,28 @@ public class PlayerController : MonoBehaviour
         if (bHasGun)
         {
             Gun.SetActive(true);
+            SfxPickupGun.Play();
         }
         else
         {
             Gun.SetActive(false);
+            SfxReturnGun.Play();
         }
+    }
+
+    // Getters
+    public bool GetHasInteract()
+    {
+        return bHasInteract;
+    }
+
+    public string GetInteractionHint()
+    {
+        return interactionHint;
+    }
+
+    public bool GetHasGun()
+    {
+        return bHasGun;
     }
 }

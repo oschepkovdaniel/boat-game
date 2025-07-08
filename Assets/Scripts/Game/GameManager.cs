@@ -53,4 +53,9 @@ public class GameManager : MonoBehaviour
             Gun.SetActive(true);
         }
     }
+
+    public bool GetPlayerHasGun()
+    {
+        return playerController.GetHasGun();
+    }
 }

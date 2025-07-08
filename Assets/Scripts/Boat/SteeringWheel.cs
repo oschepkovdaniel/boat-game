@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GunProp : MonoBehaviour, IUsableObject
+public class SteeringWheel : MonoBehaviour, IUsableObject
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,11 +16,11 @@ public class GunProp : MonoBehaviour, IUsableObject
 
     public void Interact()
     {
-        GameManagerUtils.SetPlayerHasGun(true);
+
     }
 
     public string GetInteractionHint()
     {
-        return "[E] TAKE THE GUN";
+        return "[E] CONTROL BOAT";
     }
 }

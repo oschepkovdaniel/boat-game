@@ -23,4 +23,12 @@ public static class GameManagerUtils
         GameManager gameManager = gameManagerObject.GetComponent<GameManager>();
         gameManager.SetPlayerHasGun(bHasGun);
     }
+
+    public static bool GetPlayerHasGun()
+    {
+        GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameController");
+        GameManager gameManager = gameManagerObject.GetComponent<GameManager>();
+
+        return gameManager.GetPlayerHasGun();
+    }
 }
